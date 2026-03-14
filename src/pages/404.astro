@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="404 — Page Not Found" description="This page doesn't exist.">
+  <section class="not-found">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container">
+      <p class="code">404</p>
+      <h1>Lost in the<br /><span class="accent">matrix</span></h1>
+      <p class="sub">This page doesn't exist or was moved.</p>
+      <a href="/" class="btn btn-primary">Back to home</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .not-found {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 229, 160, 0.07) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .code {
+    font-family: var(--font-mono);
+    font-size: clamp(5rem, 20vw, 12rem);
+    font-weight: 800;
+    color: var(--accent);
+    opacity: 0.15;
+    line-height: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  h1 { position: relative; z-index: 1; }
+  .accent { color: var(--accent); }
+
+  .sub {
+    color: var(--text-muted);
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn { position: relative; z-index: 1; }
+</style>

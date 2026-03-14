@@ -1,0 +1,106 @@
+---
+import { whyMe } from '../data/site';
+---
+
+<section class="section" id="about">
+  <div class="divider"></div>
+  <div class="container about-inner">
+    <div class="about-text">
+      <p class="tag">Who I am</p>
+      <h2 class="about-heading">Why work<br /><span class="accent">with me</span></h2>
+    </div>
+
+    <ul class="reasons-list" role="list">
+      {whyMe.map((reason, i) => (
+        <li class="reason-item">
+          <span class="reason-num" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <span class="reason-bar" aria-hidden="true"></span>
+          <span class="reason-text">{reason}</span>
+          <span class="reason-check" aria-hidden="true">✓</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-xl);
+    align-items: start;
+    padding-top: var(--space-xl);
+  }
+
+  .about-heading {
+    margin-top: var(--space-xs);
+    line-height: 1.15;
+  }
+
+  .accent { color: var(--accent); }
+
+  .reasons-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .reason-item {
+    display: grid;
+    grid-template-columns: 2.5rem 1px 1fr auto;
+    align-items: center;
+    gap: var(--space-sm);
+    padding-block: var(--space-md);
+    border-bottom: 1px solid var(--border);
+    transition: background var(--transition-fast);
+  }
+
+  .reason-item:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .reason-item:hover .reason-text {
+    color: var(--text);
+  }
+
+  .reason-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    opacity: 0.6;
+    letter-spacing: 0.08em;
+  }
+
+  .reason-bar {
+    height: 1.2rem;
+    background: var(--border);
+  }
+
+  .reason-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color var(--transition-fast);
+  }
+
+  .reason-check {
+    font-size: 0.85rem;
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+  }
+
+  .reason-item:hover .reason-check {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .about-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+</style>

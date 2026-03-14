@@ -1,0 +1,39 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="divider"></div>
+  <div class="container footer-inner">
+    <p class="footer-left">
+      <span class="mono">&copy; {year} Roman.</span>
+      <span class="text-muted"> All rights reserved.</span>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: var(--space-xl);
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    padding-block: var(--space-md);
+  }
+
+  .footer-left {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    color: var(--accent);
+  }
+
+</style>

@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+/* ─── Design Tokens ─── */
+:root {
+  --bg: #080b0f;
+  --bg-elevated: #0e1318;
+  --bg-card: #111720;
+  --text: #e8f0f8;
+  --text-muted: rgba(232, 240, 248, 0.5);
+  --accent: #00e5a0;
+  --accent-dim: rgba(0, 229, 160, 0.12);
+  --accent-hover: #33ffba;
+  --border: rgba(0, 229, 160, 0.15);
+
+  --font-display: 'Montserrat', system-ui, sans-serif;
+  --font-body: 'Montserrat', system-ui, sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.2s var(--ease-out);
+  --transition: 0.4s var(--ease-out);
+
+  --radius-card: 16px;
+  --radius-btn: 100px;
+  --radius-sm: 8px;
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ─── Typography ─── */
+h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; line-height: 1.2; }
+h3 { font-size: 1.25rem; font-weight: 700; }
+p  { line-height: 1.7; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+a:hover { color: var(--accent-hover); }
+
+img { display: block; max-width: 100%; }
+
+/* ─── Utility ─── */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--space-md);
+}
+
+.section {
+  padding-block: var(--space-xl);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.tag::before {
+  content: '//';
+  opacity: 0.5;
+}
+
+/* ─── Glass Border Mixin ─── */
+.glass-border {
+  position: relative;
+  border-radius: var(--radius-card);
+}
+
+.glass-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  padding: 1px;
+  background: conic-gradient(
+    from 45deg,
+    rgba(0, 229, 160, 0.25) 0deg,
+    rgba(0, 229, 160, 0.03) 45deg,
+    rgba(0, 229, 160, 0.15) 90deg,
+    rgba(0, 229, 160, 0.03) 135deg,
+    rgba(0, 229, 160, 0.25) 180deg,
+    rgba(0, 229, 160, 0.03) 225deg,
+    rgba(0, 229, 160, 0.15) 270deg,
+    rgba(0, 229, 160, 0.03) 315deg,
+    rgba(0, 229, 160, 0.25) 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* ─── Button ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.25s var(--ease-out), background 0.25s var(--ease-out),
+              border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out),
+              transform 0.25s var(--ease-out);
+}
+
+/* ── Primary ── */
+.btn-primary {
+  background: var(--accent);
+  color: #080b0f;
+  border: 1px solid var(--accent);
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--accent);
+  box-shadow: 0 0 20px rgba(0, 229, 160, 0.35), 0 0 48px rgba(0, 229, 160, 0.1);
+  transform: translateY(-2px);
+  animation: btn-flicker 0.5s step-end forwards;
+}
+
+@keyframes btn-flicker {
+  0%   { box-shadow: 0 0 20px rgba(0, 229, 160, 0.35); }
+  15%  { box-shadow: none; }
+  30%  { box-shadow: 0 0 20px rgba(0, 229, 160, 0.35); }
+  45%  { box-shadow: none; }
+  60%  { box-shadow: 0 0 20px rgba(0, 229, 160, 0.35); }
+  100% { box-shadow: 0 0 20px rgba(0, 229, 160, 0.35), 0 0 48px rgba(0, 229, 160, 0.1); }
+}
+
+/* ── Ghost ── */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 0 16px rgba(0, 229, 160, 0.12);
+}
+
+/* ─── Section divider ─── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin-block: 0;
+}
+
+/* ─── Noise overlay ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: rgba(0, 229, 160, 0.25);
+  color: var(--accent);
+}
+
+/* ─── Focus visible ─── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}

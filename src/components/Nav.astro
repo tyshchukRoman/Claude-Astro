@@ -1,0 +1,359 @@
+---
+const links = [
+  { href: '#services', label: 'Services', num: '01' },
+  { href: '#about', label: 'About', num: '02' },
+  { href: '#stack', label: 'Stack', num: '03' },
+  { href: '#contact', label: 'Contact', num: '04' },
+];
+---
+
+<header class="nav-wrapper">
+  <nav class="container nav">
+    <a href="/" class="nav-logo" aria-label="Home">
+      <span class="logo-bracket">[</span>
+      <span class="logo-name">roman</span>
+      <span class="logo-cursor">_</span>
+      <span class="logo-bracket">]</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      {links.map(link => (
+        <li>
+          <a href={link.href} class="nav-link">{link.label}</a>
+        </li>
+      ))}
+    </ul>
+
+    <a href="#contact" class="btn btn-primary nav-cta">Hire me</a>
+
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar bar-1"></span>
+      <span class="bar bar-2"></span>
+      <span class="bar bar-3"></span>
+    </button>
+  </nav>
+</header>
+
+<!-- Mobile drawer -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mm-bg" aria-hidden="true"></div>
+
+  <nav class="mm-nav" aria-label="Mobile navigation">
+    <ul class="mm-links" role="list">
+      {links.map(link => (
+        <li class="mm-item">
+          <a href={link.href} class="mm-link">
+            <span class="mm-num">{link.num}</span>
+            <span class="mm-label">{link.label}</span>
+            <span class="mm-arrow">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="mm-footer">
+      <a href="#contact" class="btn btn-primary mm-cta">Hire me</a>
+      <p class="mm-tagline">WordPress Expert</p>
+    </div>
+  </nav>
+</div>
+
+<style>
+  /* ── Nav bar ── */
+  .nav-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    transition: background var(--transition), backdrop-filter var(--transition);
+  }
+
+  .nav-wrapper.scrolled {
+    background: rgba(8, 11, 15, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    height: 72px;
+  }
+
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 201;
+  }
+
+  .logo-bracket { color: var(--accent); }
+  .logo-name    { color: var(--text); }
+
+  .logo-cursor {
+    color: var(--accent);
+    animation: blink 1.2s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: var(--space-md);
+    list-style: none;
+    margin-left: auto;
+  }
+
+  .nav-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-link:hover { color: var(--accent); }
+
+  .nav-cta {
+    font-size: 0.8rem;
+    padding: 0.6rem 1.25rem;
+    flex-shrink: 0;
+  }
+
+  /* ── Hamburger ── */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    padding: 8px 10px;
+    margin-left: auto;
+    position: relative;
+    z-index: 201;
+    transition: border-color var(--transition-fast);
+  }
+
+  .nav-toggle:hover { border-color: var(--accent); }
+
+  .bar {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: all 0.35s var(--ease-out);
+    transform-origin: center;
+  }
+
+  /* X state */
+  .nav-toggle.open .bar-1 { transform: translateY(7px) rotate(45deg); background: var(--accent); }
+  .nav-toggle.open .bar-2 { opacity: 0; transform: scaleX(0); }
+  .nav-toggle.open .bar-3 { transform: translateY(-7px) rotate(-45deg); background: var(--accent); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-cta   { display: none; }
+    .nav-toggle { display: flex; }
+  }
+
+  /* ── Mobile drawer ── */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 190;
+    pointer-events: none;
+  }
+
+  /* blurred dark backdrop */
+  .mm-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 11, 15, 0.6);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out);
+  }
+
+  /* slide-in panel */
+  .mm-nav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(340px, 90vw);
+    background: var(--bg-elevated);
+    border-left: 1px solid var(--border);
+    padding: 100px var(--space-lg) var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform: translateX(100%);
+    transition: transform 0.45s var(--ease-out);
+  }
+
+  /* open state */
+  .mobile-menu.open {
+    pointer-events: auto;
+  }
+
+  .mobile-menu.open .mm-bg {
+    opacity: 1;
+  }
+
+  .mobile-menu.open .mm-nav {
+    transform: translateX(0);
+  }
+
+  @media (max-width: 768px) {
+    .mobile-menu { display: block; }
+  }
+
+  /* ── Menu links ── */
+  .mm-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mm-item {
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateX(24px);
+    transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+  }
+
+  .mm-item:first-child { border-top: 1px solid var(--border); }
+
+  /* stagger in */
+  .mobile-menu.open .mm-item:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.1s; }
+  .mobile-menu.open .mm-item:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.15s; }
+  .mobile-menu.open .mm-item:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.2s; }
+  .mobile-menu.open .mm-item:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.25s; }
+
+  .mm-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) 0;
+    color: var(--text);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .mm-link:hover { color: var(--accent); }
+
+  .mm-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    opacity: 0.5;
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+    width: 1.5rem;
+  }
+
+  .mm-label {
+    font-size: 1.4rem;
+    font-weight: 700;
+    flex: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .mm-arrow {
+    font-size: 1rem;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .mm-link:hover .mm-arrow {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── Drawer footer ── */
+  .mm-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.35s var(--ease-out) 0.3s, transform 0.35s var(--ease-out) 0.3s;
+  }
+
+  .mobile-menu.open .mm-footer {
+    opacity: 1;
+    transform: none;
+  }
+
+  .mm-cta { align-self: flex-start; }
+
+  .mm-tagline {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+</style>
+
+<script>
+  const wrapper = document.querySelector('.nav-wrapper');
+  const toggle  = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const menu    = document.getElementById('mobileMenu');
+
+  function openMenu() {
+    menu?.classList.add('open');
+    menu?.setAttribute('aria-hidden', 'false');
+    toggle?.classList.add('open');
+    toggle?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    menu?.classList.remove('open');
+    menu?.setAttribute('aria-hidden', 'true');
+    toggle?.classList.remove('open');
+    toggle?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  window.addEventListener('scroll', () => {
+    wrapper?.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  toggle?.addEventListener('click', () => {
+    menu?.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  // Close on backdrop click
+  document.querySelector('.mm-bg')?.addEventListener('click', closeMenu);
+
+  // Close on link click
+  document.querySelectorAll('.mm-link, .mm-cta').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+</script>

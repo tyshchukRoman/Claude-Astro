@@ -1,0 +1,101 @@
+---
+import { services } from '../data/site';
+---
+
+<section class="section" id="services">
+  <div class="container">
+    <p class="tag">What I do</p>
+    <h2 class="section-title">Services</h2>
+    <p class="section-sub">
+      Whether you need a brand-new website, improvements to an existing one, or help fixing
+      technical problems, I can step in and get it done efficiently.
+    </p>
+
+    <div class="services-grid">
+      {services.map((service, i) => (
+        <div class="service-card glass-border">
+          <span class="service-icon" aria-hidden="true">{service.icon}</span>
+          <div class="service-num">0{i + 1}</div>
+          <h3 class="service-title">{service.title}</h3>
+          <p class="service-desc">{service.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-title {
+    margin-top: var(--space-xs);
+    margin-bottom: var(--space-sm);
+  }
+
+  .section-sub {
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: var(--space-lg);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .service-card {
+    background: var(--bg-card);
+    padding: var(--space-md);
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+    cursor: default;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, var(--accent-dim) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition);
+    pointer-events: none;
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+  }
+
+  .service-card:hover::after {
+    opacity: 1;
+  }
+
+  .service-icon {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: var(--space-sm);
+    color: var(--accent);
+  }
+
+  .service-num {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    opacity: 0.4;
+    letter-spacing: 0.1em;
+  }
+
+  .service-title {
+    margin-bottom: var(--space-xs);
+    color: var(--text);
+  }
+
+  .service-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+</style>
