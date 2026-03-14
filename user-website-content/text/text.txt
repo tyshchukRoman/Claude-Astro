@@ -1,0 +1,42 @@
+WordPress Expert
+
+I help businesses build fast, reliable, and scalable websites using WordPress. With deep experience in custom development, performance optimization, and troubleshooting complex issues, I deliver solutions that work smoothly and are easy to manage.
+
+Whether you need a brand-new website, improvements to an existing one, or help fixing technical problems, I can step in and get it done efficiently.
+
+
+What I Do
+
+- Custom WordPress Development
+I build tailored WordPress solutions instead of relying on bloated templates. Clean code, scalable architecture, and full control over functionality.
+
+- Theme & Block Development
+Custom themes, Gutenberg blocks, and integrations with tools like ACF to create flexible, easy-to-manage content systems.
+
+- Speed & Performance Optimization
+Faster load times, optimized images, caching setup, and performance audits to ensure your website runs efficiently.
+
+- Bug Fixing & Troubleshooting
+White screens, plugin conflicts, error 500 issues, broken layouts — I quickly identify the cause and resolve it.
+
+- Website Maintenance
+Updates, backups, monitoring, and ongoing improvements to keep your website secure and stable.
+
+
+Why Work With Me
+
+- Clean, maintainable code
+- Strong debugging and problem-solving skills
+- Focus on performance and stability
+- Clear communication and reliable delivery
+- Experience with complex WordPress setups
+
+
+Technologies I Work With
+
+WordPress • PHP • JavaScript • SCSS • HTML5 • ACF • WPML • REST API • Git
+
+
+Let’s Work Together
+
+If you need a reliable WordPress developer who can solve problems and deliver high-quality work, feel free to get in touch. I’ll be happy to discuss your project.
