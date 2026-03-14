@@ -18,57 +18,56 @@
     <div class="contact-form-wrap glass-border">
       <form
         class="contact-form"
-        action="https://formspree.io/f/YOUR_FORM_ID"
+        action="https://formspree.io/f/mgonzrrb"
         method="POST"
         id="contactForm"
+        novalidate
       >
-        <div class="form-group">
+        <div class="form-group" id="group-name">
           <label for="name">Name</label>
           <input
             type="text"
             id="name"
             name="name"
-            required
             placeholder="Your name"
             autocomplete="name"
           />
+          <span class="field-error" id="error-name"></span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="group-email">
           <label for="email">Email</label>
           <input
             type="email"
             id="email"
             name="email"
-            required
             placeholder="your@email.com"
             autocomplete="email"
           />
+          <span class="field-error" id="error-email"></span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="group-message">
           <label for="message">Message</label>
           <textarea
             id="message"
             name="message"
-            required
             rows="5"
             placeholder="Tell me about your project..."
           ></textarea>
+          <span class="field-error" id="error-message"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary submit-btn">
-          <span class="submit-text">Send message</span>
-          <span class="submit-arrow">→</span>
-        </button>
-
-        <p class="form-note">
-          Replace <code>YOUR_FORM_ID</code> in the source with your
-          <a href="https://formspree.io" target="_blank" rel="noopener">Formspree</a> endpoint.
-        </p>
+        <div class="form-submit-row">
+          <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">
+            <span class="submit-text">Send message</span>
+            <span class="submit-arrow">→</span>
+          </button>
+          <span class="submit-error" id="submitError"></span>
+        </div>
       </form>
 
-      <div class="form-success" id="formSuccess" hidden>
+      <div class="form-success" id="formSuccess">
         <span class="success-icon">✓</span>
         <h3>Message sent!</h3>
         <p>Thanks for reaching out. I'll get back to you shortly.</p>
@@ -108,7 +107,7 @@
   .contact-form {
     display: flex;
     flex-direction: column;
-    gap: var(--space-md);
+    gap: var(--space-sm);
   }
 
   .form-group {
@@ -118,7 +117,7 @@
   }
 
   label {
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -131,7 +130,7 @@
     border-radius: var(--radius-sm);
     padding: 0.75rem var(--space-sm);
     font-family: var(--font-body);
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: var(--text);
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
     resize: none;
@@ -148,9 +147,41 @@
     box-shadow: 0 0 0 3px var(--accent-dim);
   }
 
+  /* Validation states */
+  .form-group.invalid input,
+  .form-group.invalid textarea {
+    border-color: #ef476f;
+    box-shadow: 0 0 0 3px rgba(239, 71, 111, 0.1);
+  }
+
+  .form-group.valid input,
+  .form-group.valid textarea {
+    border-color: var(--accent);
+  }
+
+  .field-error {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: #ef476f;
+    letter-spacing: 0.04em;
+    min-height: 1em;
+  }
+
+  /* Submit row */
+  .form-submit-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
   .submit-btn {
     align-self: flex-start;
-    gap: 0.75rem;
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.6;
+    pointer-events: none;
   }
 
   .submit-arrow {
@@ -161,30 +192,24 @@
     transform: translateX(4px);
   }
 
-  .form-note {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    opacity: 0.6;
-    line-height: 1.5;
-  }
-
-  .form-note code {
+  .submit-error {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    background: var(--bg-elevated);
-    padding: 1px 4px;
-    border-radius: 3px;
-    color: var(--accent);
+    font-size: 1rem;
+    color: #ef476f;
   }
 
   /* Success */
   .form-success {
     text-align: center;
     padding: var(--space-lg);
-    display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-sm);
+    display: none;
+  }
+
+  .form-success.visible {
+    display: flex;
   }
 
   .success-icon {
@@ -211,27 +236,75 @@
 </style>
 
 <script>
-  const form = document.getElementById('contactForm') as HTMLFormElement | null;
-  const success = document.getElementById('formSuccess');
+  const form     = document.getElementById('contactForm') as HTMLFormElement;
+  const success  = document.getElementById('formSuccess')!;
+  const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+  const submitError = document.getElementById('submitError')!;
 
-  form?.addEventListener('submit', async (e) => {
+  // ── Validation rules ──
+  type FieldId = 'name' | 'email' | 'message';
+
+  const rules: Record<FieldId, (v: string) => string> = {
+    name:    v => v.trim().length < 2   ? 'Name must be at least 2 characters.' : '',
+    email:   v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : 'Enter a valid email address.',
+    message: v => v.trim().length < 10  ? 'Message must be at least 10 characters.' : '',
+  };
+
+  function validateField(id: FieldId): boolean {
+    const el    = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement;
+    const group = document.getElementById(`group-${id}`)!;
+    const error = document.getElementById(`error-${id}`)!;
+    const msg   = rules[id](el.value);
+
+    error.textContent = msg;
+    group.classList.toggle('invalid', !!msg);
+    group.classList.toggle('valid',   !msg);
+    return !msg;
+  }
+
+  // Validate on blur
+  (['name', 'email', 'message'] as FieldId[]).forEach(id => {
+    const el = document.getElementById(id)!;
+    el.addEventListener('blur', () => validateField(id));
+    el.addEventListener('input', () => {
+      // Clear error as user types after a failed attempt
+      const group = document.getElementById(`group-${id}`)!;
+      if (group.classList.contains('invalid')) validateField(id);
+    });
+  });
+
+  // ── Submit ──
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const data = new FormData(form);
+
+    const fields: FieldId[] = ['name', 'email', 'message'];
+    const allValid = fields.map(validateField).every(Boolean);
+    if (!allValid) return;
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector('.submit-text')!.textContent = 'Sending...';
+    submitError.textContent = '';
 
     try {
       const res = await fetch(form.action, {
         method: 'POST',
-        body: data,
+        body: new FormData(form),
         headers: { Accept: 'application/json' },
       });
 
       if (res.ok) {
         form.hidden = true;
-        if (success) success.hidden = false;
+        success.classList.add('visible');
+      } else {
+        const json = await res.json().catch(() => ({}));
+        submitError.textContent = json?.error ?? 'Something went wrong. Please try again.';
+        submitBtn.disabled = false;
+        submitBtn.querySelector('.submit-text')!.textContent = 'Send message';
       }
     } catch {
-      // fallback: let the browser submit normally
-      form.submit();
+      submitError.textContent = 'Network error. Please check your connection.';
+      submitBtn.disabled = false;
+      submitBtn.querySelector('.submit-text')!.textContent = 'Send message';
     }
   });
 </script>

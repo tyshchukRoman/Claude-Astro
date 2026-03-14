@@ -17,7 +17,7 @@ export const siteConfig = {
   tagline: 'Fast, reliable, and scalable websites.',
   description:
     'I help businesses build fast, reliable, and scalable websites using WordPress. With deep experience in custom development, performance optimization, and troubleshooting complex issues, I deliver solutions that work smoothly and are easy to manage.',
-  email: 'hello@example.com',
+  email: 'tisukroman@gmail.com',
   photo: '/images/roman.jpg',
 };
 

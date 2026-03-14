@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anaheim:wght@400;500;600;700;800&display=swap');
 
 /* ─── Design Tokens ─── */
 :root {
@@ -12,8 +12,8 @@
   --accent-hover: #33ffba;
   --border: rgba(0, 229, 160, 0.15);
 
-  --font-display: 'Montserrat', system-ui, sans-serif;
-  --font-body: 'Montserrat', system-ui, sans-serif;
+  --font-display: 'Anaheim', system-ui, sans-serif;
+  --font-body: 'Anaheim', system-ui, sans-serif;
   --font-mono: 'Courier New', Courier, monospace;
 
   --space-xs: 0.5rem;
@@ -62,7 +62,7 @@ body {
 h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
 h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; line-height: 1.2; }
 h3 { font-size: 1.25rem; font-weight: 700; }
-p  { line-height: 1.7; }
+p  { font-size: 1.15rem; line-height: 1.7; }
 
 a {
   color: var(--accent);
@@ -89,7 +89,7 @@ img { display: block; max-width: 100%; }
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  font-size: 0.7rem;
+  font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -141,7 +141,7 @@ img { display: block; max-width: 100%; }
   padding: 0.75rem 1.75rem;
   border-radius: var(--radius-btn);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
